@@ -153,3 +153,17 @@ body::after{
     pointer-events: none;
 }
 
+.link__button{
+    font-size: 50px;
+    color: white; 
+    text-align: center;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* opacity: 1; */
+    filter: blur(0px);
+    transform: scale(1);
+}
+.link__button.hidden{
+    /* opacity: 0; */
+    filter: blur(4px);
+    transform: scale(0.95);
+}

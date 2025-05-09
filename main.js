@@ -1,5 +1,29 @@
 const generation = document.querySelector('.generation');
 const linkGo = document.querySelector('.link-to');
+const label1 = document.querySelector('.labelclass');
+// const linkggo = document.querySelector('.link-go');
+
+// label1.textContent = <a target="_blank" class="main-container__button link-to disabled" href="https://www.google.com.ua/">asdfasdfasdfasdfsadf</a>;
+
+// function changeLink(text, href) {
+//      linkGo.classList.add('hidden');
+   
+//      setTimeout(() => {
+//        linkGo.textContent = 'rfrfrfrf'
+//        linkGo.href = 'https://www.google.com.ua/?hl=ua';
+//        linkGo.classList.remove('hidden');
+//      }, 300); // відповідає тривалості CSS transition
+//    }
+
+// generation.addEventListener('click', ()=>{
+//      linkggo.textContent = 'rfrfrfrf'
+//      linkggo.href = 'https://www.google.com.ua/?hl=ua';
+// });
+// generation.addEventListener('click', (e)=>{
+//      e.preventDefault();
+//      changeLink()
+// });
+
 
 // Масив укр букв і скільки вони мають дыапазонів (Аа - Ад, Ае-Аз) 
 const objectWords = {
@@ -59,8 +83,15 @@ function addAtribute(el){
      linkGo.setAttribute('href', el);
 }
 
-function mainFunc(a,b){  
-     generation.classList.add('new');
+let linkContent;
+let linkHref;
+
+function mainFunc(linkContent,linkHref){  
+     // async function animation(params) {
+          linkGo.classList.add('hidden');
+
+          setTimeout(() => {
+               generation.classList.add('new');
      disabled(0);
       // створюємо перші 2 цифри для посилання
      const firstNumb = random(34);
@@ -88,20 +119,31 @@ function mainFunc(a,b){
           // третє рандомне число зі списку слів
           const thirdNumb = random(listTag.length + 1);
           // остаточне слово, яке шукається в масиві по останньому числу
-          const finishWord = listTag[thirdNumb+1].textContent;
+          linkContent = listTag[thirdNumb+1].textContent;
           
-          return url = `https://slovnyk.ua/index.php?swrd=${finishWord}`
+          return url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
      } catch (e){
           console.error(e)}
      }
      
-fetchAsyncTodos(url).then(()=>{addAtribute(url)})
+fetchAsyncTodos(url).then(()=>{linkHref = url})
+          // linkGo.textContent = `${linkContent}`
+          linkGo.textContent = 'dasfdfasdds'
+          linkGo.href = `${linkHref}`
+          linkGo.classList.remove('hidden');
+          }, 600); // відповідає тривалості CSS transition
+     // }
+     // animation()
+     
 }
 
 
 
 // Головний виклик всії функцій - натиск на Генерувати
-generation.addEventListener('click', mainFunc);
+generation.addEventListener('click', (e) =>{
+     e.preventDefault();
+     mainFunc();
+} );
 // натиск на Перейти
 linkGo.addEventListener('click', ()=>{disabled(1)})
 linkGo.addEventListener('mousedown', ()=>{disabled(1)})
