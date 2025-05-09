@@ -120,18 +120,28 @@ function mainFunc(linkContent,linkHref){
           const thirdNumb = random(listTag.length + 1);
           // остаточне слово, яке шукається в масиві по останньому числу
           linkContent = listTag[thirdNumb+1].textContent;
+          console.log(linkContent);
           
-          return url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
+           url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
+          console.log(url);
+          
      } catch (e){
           console.error(e)}
      }
      
-fetchAsyncTodos(url).then(()=>{linkHref = url})
-          // linkGo.textContent = `${linkContent}`
-          linkGo.textContent = 'dasfdfasdds'
+fetchAsyncTodos(url).then(()=>{linkHref = url;
+          linkGo.textContent = `${linkContent}`
           linkGo.href = `${linkHref}`
-          linkGo.classList.remove('hidden');
-          }, 600); // відповідає тривалості CSS transition
+     linkGo.classList.remove('hidden');})
+          // linkGo.textContent = `${linkContent}`
+          // console.log('eeeeeeeee');
+          
+          // console.log(linkHref);
+          
+          // linkGo.textContent = 'dasfdfasdds'
+          // linkGo.href = `${linkHref}`
+          // linkGo.classList.remove('hidden');
+          }, 200); // відповідає тривалості CSS transition
      // }
      // animation()
      
