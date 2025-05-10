@@ -37,7 +37,7 @@ const objectWords = {
      8:21,
      9:38,
      10:130,
-     11: 'return',
+     11: 'NuN',
      12:59,
      13:9,
      14:15,
@@ -57,7 +57,7 @@ const objectWords = {
      28:54,
      29:66,
      30:26,
-     31:'return',
+     31:'NuN',
      32:17,
      33:32,
 }
@@ -86,21 +86,22 @@ function addAtribute(el){
 let linkContent;
 let linkHref;
 
+let firstNumb;
+let secondNumb;
 function mainFunc(linkContent,linkHref){  
-     // async function animation(params) {
-          linkGo.classList.add('hidden');
+     linkGo.classList.add('hidden');
 
-          setTimeout(() => {
-               generation.classList.add('new');
+     setTimeout(() => {
+          generation.classList.add('new');
      disabled(0);
-      // створюємо перші 2 цифри для посилання
-     const firstNumb = random(34);
-     const secondNumb = random(objectWords[firstNumb]+1);
 
-     // перевірка на пустоту значення об'єкта
-     if(isNaN(secondNumb)){
-          return
-     }
+     // створюємо перші 2 цифри для посилання
+     do{
+          firstNumb = random(34);
+          console.log('adgfdsgsfdgffff');
+     } while(firstNumb === 11 || firstNumb === 31)
+     
+     secondNumb = random(objectWords[firstNumb]+1);
 
      let url = `https://slovnyk.ua/index.php?s1=${firstNumb}&s2=${secondNumb}`
 
@@ -116,13 +117,20 @@ function mainFunc(linkContent,linkHref){
           const parser = new DOMParser();
           const doc = parser.parseFromString(text, 'text/html');
           const listTag = doc.querySelectorAll('.cont_p');
+          console.log(listTag);
+          
+          console.log(listTag.length + '  length'); //19
+          console.log(listTag.length + 1 + '  length + 1'); //20
+          
           // третє рандомне число зі списку слів
-          const thirdNumb = random(listTag.length + 1);
+          const thirdNumb = random(listTag.length + 1); //20
           // остаточне слово, яке шукається в масиві по останньому числу
-          linkContent = listTag[thirdNumb+1].textContent;
+          // console.log(listTag[0]);
+          
+          linkContent = listTag[thirdNumb-1].textContent;
           console.log(linkContent);
           
-           url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
+          url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
           console.log(url);
           
      } catch (e){
@@ -141,7 +149,7 @@ fetchAsyncTodos(url).then(()=>{linkHref = url;
           // linkGo.textContent = 'dasfdfasdds'
           // linkGo.href = `${linkHref}`
           // linkGo.classList.remove('hidden');
-          }, 200); // відповідає тривалості CSS transition
+          }, 300); // відповідає тривалості CSS transition
      // }
      // animation()
      
