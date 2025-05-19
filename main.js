@@ -91,7 +91,7 @@ let secondNumb;
 function mainFunc(linkContent,linkHref){  
      linkGo.classList.add('hidden');
 
-     setTimeout(() => {
+     // setTimeout(() => {
           generation.classList.add('new');
      disabled(0);
 
@@ -103,31 +103,35 @@ function mainFunc(linkContent,linkHref){
      
      secondNumb = random(objectWords[firstNumb]+1);
 
-     let url = `https://slovnyk.ua/index.php?s1=${firstNumb}&s2=${secondNumb}`
+     // let url = `https://slovnyk.ua/index.php?s1=${firstNumb}&s2=${secondNumb}`
+     const numberPage = `s1=${firstNumb}&s2=${secondNumb}`
+     // const numberPage = 's1=1&s2=34'
+     let url = `https://ukr-proxy.onrender.com/proxy?word=${encodeURIComponent(numberPage)}`
+     console.log(url);
+     
+
 
      // створюємо асинхронну функцію, яка робить запрос на сервер та чекає відповідь
      async function fetchAsyncTodos(){
           console.log('fetch todo started');
      try {
           // запит до сервера, отримання головної інформації
-          const response = await fetch(url)
-          // отримання тіла елемента
-          const text = await response.text();
-          // парсинг дом, для того щоб знайти потрібні класи
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(text, 'text/html');
-          const listTag = doc.querySelectorAll('.cont_p');
-          console.log(listTag);
+          // const response = await fetch('https://ukr-proxy.onrender.com/proxy?word=s1%3D16%26s2%3D34');
+          const response = await fetch(url);
+          console.log('8');
           
-          console.log(listTag.length + '  length'); //19
-          console.log(listTag.length + 1 + '  length + 1'); //20
+          // отримання тіла елемента
+          const arrWords = await response.json();
+          
+          console.log(arrWords.length + '  length'); 
+          console.log(arrWords.length + 1 + '  length + 1');
           
           // третє рандомне число зі списку слів
-          const thirdNumb = random(listTag.length + 1); //20
+          const thirdNumb = random(arrWords.length + 1);
           // остаточне слово, яке шукається в масиві по останньому числу
           // console.log(listTag[0]);
           
-          linkContent = listTag[thirdNumb-1].textContent;
+          linkContent = arrWords[thirdNumb-1]
           console.log(linkContent);
           
           url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
@@ -149,7 +153,8 @@ fetchAsyncTodos(url).then(()=>{linkHref = url;
           // linkGo.textContent = 'dasfdfasdds'
           // linkGo.href = `${linkHref}`
           // linkGo.classList.remove('hidden');
-          }, 300); // відповідає тривалості CSS transition
+          // }, 600); 
+          // відповідає тривалості CSS transition
      // }
      // animation()
      
