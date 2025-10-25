@@ -1,28 +1,7 @@
 const generation = document.querySelector('.generation');
 const linkGo = document.querySelector('.link-to');
 const label1 = document.querySelector('.labelclass');
-// const linkggo = document.querySelector('.link-go');
-
-// label1.textContent = <a target="_blank" class="main-container__button link-to disabled" href="https://www.google.com.ua/">asdfasdfasdfasdfsadf</a>;
-
-// function changeLink(text, href) {
-//      linkGo.classList.add('hidden');
-   
-//      setTimeout(() => {
-//        linkGo.textContent = 'rfrfrfrf'
-//        linkGo.href = 'https://www.google.com.ua/?hl=ua';
-//        linkGo.classList.remove('hidden');
-//      }, 300); // відповідає тривалості CSS transition
-//    }
-
-// generation.addEventListener('click', ()=>{
-//      linkggo.textContent = 'rfrfrfrf'
-//      linkggo.href = 'https://www.google.com.ua/?hl=ua';
-// });
-// generation.addEventListener('click', (e)=>{
-//      e.preventDefault();
-//      changeLink()
-// });
+const loadingContainer = document.querySelector('.loading-container');
 
 
 // Масив укр букв і скільки вони мають дыапазонів (Аа - Ад, Ае-Аз) 
@@ -89,10 +68,6 @@ let linkHref;
 let firstNumb;
 let secondNumb;
 function mainFunc(linkContent,linkHref){  
-     linkGo.classList.add('hidden');
-
-     // setTimeout(() => {
-          generation.classList.add('new');
      disabled(0);
 
      // створюємо перші 2 цифри для посилання
@@ -103,70 +78,56 @@ function mainFunc(linkContent,linkHref){
      
      secondNumb = random(objectWords[firstNumb]+1);
 
-     // let url = `https://slovnyk.ua/index.php?s1=${firstNumb}&s2=${secondNumb}`
-     const numberPage = `s1=${firstNumb}&s2=${secondNumb}`
-     // const numberPage = 's1=1&s2=34'
+     const numberPage = `s1=${firstNumb}&s2=${secondNumb}`;
+
      let url = `https://ukr-proxy.onrender.com/proxy?word=${encodeURIComponent(numberPage)}`
      console.log(url);
      
-
-
      // створюємо асинхронну функцію, яка робить запрос на сервер та чекає відповідь
      async function fetchAsyncTodos(){
+          linkGo.classList.add('hidden');
+          loadingContainer.classList.add('block');
           console.log('fetch todo started');
-     try {
-          // запит до сервера, отримання головної інформації
-          // const response = await fetch('https://ukr-proxy.onrender.com/proxy?word=s1%3D16%26s2%3D34');
-          const response = await fetch(url);
-          console.log('8');
-          
-          // отримання тіла елемента
-          const arrWords = await response.json();
-          
-          console.log(arrWords.length + '  length'); 
-          console.log(arrWords.length + 1 + '  length + 1');
-          
-          // третє рандомне число зі списку слів
-          const thirdNumb = random(arrWords.length + 1);
-          // остаточне слово, яке шукається в масиві по останньому числу
-          // console.log(listTag[0]);
-          
-          linkContent = arrWords[thirdNumb-1]
-          console.log(linkContent);
-          
-          url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
-          console.log(url);
-          
-     } catch (e){
-          console.error(e)}
+
+          try {
+               // запит до сервера, отримання головної інформації
+               const response = await fetch(url);
+               console.log('8');
+               
+               // отримання тіла елемента
+               const arrWords = await response.json();
+               
+               console.log(arrWords.length + '  length'); 
+               console.log(arrWords.length + 1 + '  length + 1');
+               
+               // третє рандомне число зі списку слів
+               const thirdNumb = random(arrWords.length + 1);
+               // остаточне слово, яке шукається в масиві по останньому числу
+               // console.log(listTag[0]);
+               
+               linkContent = arrWords[thirdNumb-1]
+               console.log(linkContent);
+               
+               url = `https://slovnyk.ua/index.php?swrd=${linkContent}`
+               console.log(url);
+               
+          } catch (e){
+               console.error(e)}
      }
      
-fetchAsyncTodos(url).then(()=>{linkHref = url;
+     fetchAsyncTodos(url).then(()=>{
+          linkHref = url;
           linkGo.textContent = `${linkContent}`
           linkGo.href = `${linkHref}`
-     linkGo.classList.remove('hidden');})
-          // linkGo.textContent = `${linkContent}`
-          // console.log('eeeeeeeee');
-          
-          // console.log(linkHref);
-          
-          // linkGo.textContent = 'dasfdfasdds'
-          // linkGo.href = `${linkHref}`
-          // linkGo.classList.remove('hidden');
-          // }, 600); 
-          // відповідає тривалості CSS transition
-     // }
-     // animation()
-     
+          linkGo.classList.remove('hidden');
+          loadingContainer.classList.remove('block');
+     })
 }
 
 
 
 // Головний виклик всії функцій - натиск на Генерувати
-generation.addEventListener('click', (e) =>{
-     e.preventDefault();
-     mainFunc();
-} );
+generation.addEventListener('click', mainFunc);
 // натиск на Перейти
 linkGo.addEventListener('click', ()=>{disabled(1)})
 linkGo.addEventListener('mousedown', ()=>{disabled(1)})
